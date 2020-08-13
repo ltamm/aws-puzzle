@@ -58,7 +58,12 @@ function create() {
 }
 
 function update() {
-  debugtext.setText(has_connectivity().toString())
+  if (has_connectivity() ) {
+    debugtext.setText('🎉');
+  }
+  else {
+    debugtext.setText('😢')
+  }
 }
 
 function has_connectivity() {
