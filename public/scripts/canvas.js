@@ -38,17 +38,16 @@ function create() {
     this.y = dragY;
   });
 
-  // Create subnet object
-  subnet = this.add.sprite(500, 400, 'pub_subnet');
+  // Create public subnet object
+  subnet = this.add.sprite(600, 400, 'pub_subnet');
   subnet.setInteractive({ pixelPerfect:true, draggable: true });
-  // subnet.setScale(0.3);
   subnet.on('drag', function (pointer, dragX, dragY) {
     this.x = dragX;
     this.y = dragY;
   });
 
   // Create ec2 object
-  ec2 = this.add.sprite(500, 400, 'ec2_sad');
+  ec2 = this.add.sprite(700, 400, 'ec2_sad');
   ec2.setInteractive({ pixelPerfect:true, draggable: true });
   ec2.setScale(0.3);
   ec2.on('drag', function (pointer, dragX, dragY) {
