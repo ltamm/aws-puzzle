@@ -1,7 +1,7 @@
 var config = {
   type: Phaser.AUTO,
   width: 838,
-  height: 400,
+  height: 550,
   backgroundColor: '#ff9900',
   scene: {
     preload: preload,
@@ -12,7 +12,8 @@ var config = {
 
 var game = new Phaser.Game(config);
 var nat_gateway_enabled = false;
-var flavour_text
+var flavourText
+var solutionText
 
 // Components
 var ec2, vpc, public_subnet, private_subnet, nat_gateway_toggle
@@ -42,7 +43,8 @@ function create() {
   createVPC(this);
   createEC2(this);
 
-  flavourText = this.add.text(20, 350, "", { fontSize: '32px', fill: '#232f3e' });
+  flavourText = this.add.text(20, 350, "placeholder", { fontSize: '32px', fill: '#232f3e' });
+  solutionText = this.add.text(20, 400, "", { fontSize: '16px', fill: '#232f3e' });
 }
 
 function createVPC(scene) {
@@ -129,11 +131,13 @@ function createEC2(scene) {
  */
 
 function update() {
-  if (has_connectivity() ) {
+  if (text = has_connectivity() ) {
     ec2.anims.play('happy');
+    solutionText.setText(text);
   }
   else {
     ec2.anims.play('sad');
+    solutionText.setText("");
   }
 
   if (nat_gateway_enabled) {
@@ -148,7 +152,16 @@ function has_connectivity() {
   var in_public_subnet = public_subnet.getBounds().contains(ec2.x, ec2.y)
   var private_subnet_with_gateway = private_subnet.getBounds().contains(ec2.x, ec2.y) && nat_gateway_enabled;
 
-  return in_public_subnet || private_subnet_with_gateway;
+  var solution = ""
+
+  if (in_public_subnet) {
+    solution = "Hooray 🎉 Instances in public subnets can send traffic to the internet"
+  }
+  else if (private_subnet_with_gateway) {
+    solution = "Hooray 🎉 Instances in private subnets can send traffic to the interent using a\nNetwork Address Translation (NAT) Gateway that resides in the public subnet"
+  }
+
+  return solution
 }
 
 
