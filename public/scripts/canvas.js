@@ -91,7 +91,7 @@ function create_public_subnet(scene) {
   bg = scene.add.image(0,0, 'pub_subnet').setScale(0.8);
   gw_toggle = scene.add.image(200, 0, 'nat_gw').setScale(0.4); // hardcoded, need better way of dealing with scale
   public_subnet = scene.add.container(610, 325, [bg, gw_toggle])
-  public_subnet.setSize((bg.width)*0.8, bg.height);
+  public_subnet.setSize((bg.width)*0.8, bg.height*0.8);
   public_subnet.setInteractive({draggable: true});
   public_subnet.on('drag', on_drag);
 }
