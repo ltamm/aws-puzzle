@@ -12,6 +12,7 @@ var config = {
 
 var game = new Phaser.Game(config);
 var nat_gateway_enabled = false;
+var flavour_text
 
 // Components
 var ec2, vpc, public_subnet, private_subnet, nat_gateway_toggle
@@ -40,16 +41,22 @@ function create() {
 
   createVPC(this);
   createEC2(this);
+
+  flavourText = this.add.text(20, 350, "", { fontSize: '32px', fill: '#232f3e' });
 }
 
 function createVPC(scene) {
   vpc = scene.add.sprite(418.8, 179.6, 'vpc');
   vpc.setScale(.8);
+  vpc.setInteractive();
+  registerFlavourtext(vpc, "Virtual Private Cloud (VPC)");
   
   createPublicSubnet(scene);
 
   private_subnet = scene.add.sprite(528.8, 254.6, 'priv_subnet');
   private_subnet.setScale(.8);
+  private_subnet.setInteractive();
+  registerFlavourtext(private_subnet, "Private Subnet");
 }
 
 function createPublicSubnet(scene) {
@@ -59,6 +66,9 @@ function createPublicSubnet(scene) {
   public_subnet = scene.add.container(528.8, 104.6, [bg, nat_gateway_toggle])
   public_subnet.setSize(bg.width, bg.height);
   public_subnet.setScale(0.8)
+
+  public_subnet.setInteractive()
+  registerFlavourtext(public_subnet, "Public Subnet");
 }
 
 function createNATGatewayToggle(scene) {
@@ -77,6 +87,8 @@ function createNATGatewayToggle(scene) {
     toggleNatGateway();
   });
 
+  registerFlavourtext(toggle, "NAT Gateway");
+
   return toggle;
 }
 
@@ -91,10 +103,13 @@ function createEC2(scene) {
     useHandCursor:   true,
     draggable:       true
   });
+
   ec2.on('drag', function(pointer, dragX, dragY) {
     this.x = dragX;
     this.y = dragY;
   });
+
+  registerFlavourtext(ec2, "EC2 (Compute Instance)");
 
   // ec2 animations
   scene.anims.create({
@@ -143,4 +158,13 @@ function has_connectivity() {
 
 function toggleNatGateway() {
   nat_gateway_enabled = !nat_gateway_enabled
+}
+
+function registerFlavourtext(component, text) {
+  component.on('pointerover', function () {
+    flavourText.setText(text);
+  });
+  component.on('pointerout', function () {
+    flavourText.setText("");
+  });
 }
