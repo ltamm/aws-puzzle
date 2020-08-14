@@ -35,7 +35,6 @@ function create() {
 
   // Create VPC object
   vpc = this.add.sprite(500, 400, 'vpc');
-  vpc.setInteractive({ pixelPerfect:true, draggable: true });
   vpc.setScale(.8);
   vpc.on('drag', on_drag);
   
@@ -43,9 +42,7 @@ function create() {
 
   // Create private subnet object
   private_subnet = this.add.sprite(610, 475, 'priv_subnet');
-  private_subnet.setInteractive({ pixelPerfect:true, draggable: true });
   private_subnet.setScale(.8);
-  private_subnet.on('drag', on_drag);
 
   create_ec2(this);
 }
@@ -115,7 +112,4 @@ function create_public_subnet(scene) {
   public_subnet = scene.add.container(610, 325, [bg, toggle])
   public_subnet.setSize(bg.width, bg.height);
   public_subnet.setScale(0.8)
-  public_subnet.setInteractive({draggable: true});
-  public_subnet.on('drag', on_drag);
-
 }
