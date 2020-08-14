@@ -14,10 +14,7 @@ var game = new Phaser.Game(config);
 var nat_gateway_enabled = false;
 
 // Components
-var ec2
-var vpc
-var public_subnet
-var private_subnet
+var ec2, vpc, public_subnet, private_subnet, nat_gateway_toggle
 
 function preload() {
   this.load.image('vpc', 'assets/vpc.png');
@@ -54,10 +51,20 @@ function update() {
   else {
     ec2.anims.play('sad');
   }
+
+  if (nat_gateway_enabled) {
+    nat_gateway_toggle.setTint(0xff44ff);
+  }
+  else {
+    nat_gateway_toggle.clearTint();
+  }
 }
 
 function has_connectivity() {
-  return public_subnet.getBounds().contains(ec2.x, ec2.y) && vpc.getBounds().contains(public_subnet.x, public_subnet.y);
+  var in_public_subnet = public_subnet.getBounds().contains(ec2.x, ec2.y)
+  var private_subnet_with_gateway = private_subnet.getBounds().contains(ec2.x, ec2.y) && nat_gateway_enabled;
+
+  return in_public_subnet || private_subnet_with_gateway;
 }
 
 function on_drag(pointer, dragX, dragY) {
@@ -93,23 +100,24 @@ function create_ec2(scene) {
 
 function create_public_subnet(scene) {
   bg = scene.add.image(0,0, 'pub_subnet');
-  toggle = scene.add.image(275, 0, 'nat_gw'); 
+  nat_gateway_toggle = scene.add.image(275, 0, 'nat_gw');
 
   // make toggle interactive
   // where did 40 come from? Good question! I think it's the height/width of
   // the toggle image?
-  toggle.setInteractive({
+  nat_gateway_toggle.setInteractive({
     hitArea: new Phaser.Geom.Circle(40, 40, 40),
     hitAreaCallback: Phaser.Geom.Circle.Contains,
     useHandCursor: true });
-  toggle.on('pointerover', function() {
-    this.setTint(0xff44ff);
-  });
-  toggle.on('pointerout', function() {
-    this.clearTint();
+    nat_gateway_toggle.on('pointerup', function() {
+      toggleNatGateway();
   });
 
-  public_subnet = scene.add.container(610, 325, [bg, toggle])
+  public_subnet = scene.add.container(610, 325, [bg, nat_gateway_toggle])
   public_subnet.setSize(bg.width, bg.height);
   public_subnet.setScale(0.8)
+
+  function toggleNatGateway() {
+    nat_gateway_enabled = !nat_gateway_enabled
+  }
 }
