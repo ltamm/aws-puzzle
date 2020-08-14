@@ -20,8 +20,11 @@ var subnet
 
 function preload() {
   this.load.image('vpc', 'assets/vpc.png');
-  this.load.image('ec2_sad', 'assets/ec2_sad.png');
   this.load.image('pub_subnet', 'assets/pub_subnet.png');
+  this.load.spritesheet('ec2', 
+    'assets/ec2.png',
+    { frameWidth: 300, frameHeight: 300 }
+    );
 }
 
 function create() {
@@ -53,16 +56,29 @@ function create() {
     this.y = dragY;
   });
 
+  // ec2 animations
+  this.anims.create({
+    key: 'happy',
+    frames: [ { key: 'ec2', frame: 0} ],
+    frameRate: 20
+  });
+
+  this.anims.create({
+    key: 'sad',
+    frames: [ { key: 'ec2', frame: 1} ],
+    frameRate: 20
+  });
+
   debugtext = this.add.text(16, 16, has_connectivity().toString(), {fontSize: '32px', fill: '#000' });
 
 }
 
 function update() {
   if (has_connectivity() ) {
-    debugtext.setText('🎉');
+    ec2.anims.play('happy');
   }
   else {
-    debugtext.setText('😢')
+    ec2.anims.play('sad');
   }
 }
 
