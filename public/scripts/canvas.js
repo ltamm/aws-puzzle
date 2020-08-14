@@ -11,6 +11,7 @@ var config = {
 };
 
 var game = new Phaser.Game(config);
+var nat_gateway_enabled = false;
 
 // Components
 var ec2
@@ -24,8 +25,7 @@ function preload() {
   this.load.image('priv_subnet', 'assets/priv_subnet.png');
   this.load.spritesheet('ec2', 
     'assets/ec2.png',
-    { frameWidth: 300, frameHeight: 300 }
-    );
+    { frameWidth: 300, frameHeight: 300 });
 }
 
 function create() {
@@ -40,23 +40,25 @@ function create() {
   });
   
   // Create public subnet object
-  subnet_public = this.add.sprite(600, 325, 'pub_subnet');
-  subnet_public.setInteractive({ pixelPerfect:true, draggable: true });
-  subnet_public.on('drag', function (pointer, dragX, dragY) {
+  public_subnet = this.add.sprite(610, 325, 'pub_subnet');
+  public_subnet.setInteractive({ pixelPerfect:true, draggable: true });
+  public_subnet.setScale(.8);
+  public_subnet.on('drag', function (pointer, dragX, dragY) {
     this.x = dragX;
     this.y = dragY;
   });
 
   // Create private subnet object
-  subnet_private = this.add.sprite(600, 475, 'priv_subnet');
-  subnet_private.setInteractive({ pixelPerfect:true, draggable: true });
-  subnet_private.on('drag', function (pointer, dragX, dragY) {
+  private_subnet = this.add.sprite(610, 475, 'priv_subnet');
+  private_subnet.setInteractive({ pixelPerfect:true, draggable: true });
+  private_subnet.setScale(.8);
+  private_subnet.on('drag', function (pointer, dragX, dragY) {
     this.x = dragX;
     this.y = dragY;
   });
 
   // Create ec2 object
-  ec2 = this.add.sprite(700, 325, 'ec2_sad');
+  ec2 = this.add.sprite(700, 325, 'ec2');
   ec2.setInteractive({ pixelPerfect:true, draggable: true });
   ec2.setScale(0.3);
   ec2.on('drag', function (pointer, dragX, dragY) {
@@ -88,5 +90,5 @@ function update() {
 }
 
 function has_connectivity() {
-  return subnet_public.getBounds().contains(ec2.x, ec2.y) && vpc.getBounds().contains(subnet_public.x, subnet_public.y);
+  return public_subnet.getBounds().contains(ec2.x, ec2.y) && vpc.getBounds().contains(public_subnet.x, public_subnet.y);
 }
