@@ -48,7 +48,7 @@ function create() {
   private_subnet.on('drag', on_drag);
 
   // Create ec2 object
-  ec2 = this.add.sprite(700, 325, 'ec2');
+  ec2 = this.add.sprite(500, 325, 'ec2');
   ec2.setInteractive({ pixelPerfect:true, draggable: true });
   ec2.setScale(0.3);
   ec2.on('drag', on_drag);
