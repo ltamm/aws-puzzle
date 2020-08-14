@@ -1,7 +1,7 @@
 var config = {
   type: Phaser.AUTO,
   width: 838,
-  height: 360,
+  height: 400,
   backgroundColor: '#ff9900',
   scene: {
     preload: preload,
@@ -50,7 +50,6 @@ function createVPC(scene) {
 
   private_subnet = scene.add.sprite(528.8, 254.6, 'priv_subnet');
   private_subnet.setScale(.8);
-  console.log(vpc.displayWidth)
 }
 
 function createPublicSubnet(scene) {
