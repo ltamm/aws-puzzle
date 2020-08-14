@@ -1,8 +1,8 @@
 var config = {
   type: Phaser.AUTO,
-  width: 1000,
-  height: 800,
-  backgroundColor: '#2d2d2d',
+  width: 838,
+  height: 360,
+  backgroundColor: '#ff9900',
   scene: {
     preload: preload,
     create: create,
@@ -43,20 +43,21 @@ function create() {
 }
 
 function createVPC(scene) {
-  vpc = scene.add.sprite(500, 400, 'vpc');
+  vpc = scene.add.sprite(418.8, 179.6, 'vpc');
   vpc.setScale(.8);
   
   createPublicSubnet(scene);
 
-  private_subnet = scene.add.sprite(610, 475, 'priv_subnet');
+  private_subnet = scene.add.sprite(528.8, 254.6, 'priv_subnet');
   private_subnet.setScale(.8);
+  console.log(vpc.displayWidth)
 }
 
 function createPublicSubnet(scene) {
-  bg = scene.add.image(0,0, 'pub_subnet');
+  bg = scene.add.image(0, 0, 'pub_subnet');
   nat_gateway_toggle = createNATGatewayToggle(scene);
 
-  public_subnet = scene.add.container(610, 325, [bg, nat_gateway_toggle])
+  public_subnet = scene.add.container(528.8, 104.6, [bg, nat_gateway_toggle])
   public_subnet.setSize(bg.width, bg.height);
   public_subnet.setScale(0.8)
 }
@@ -81,7 +82,7 @@ function createNATGatewayToggle(scene) {
 }
 
 function createEC2(scene) {
-  ec2 = scene.add.sprite(500, 475, 'ec2');
+  ec2 = scene.add.sprite(418.8, 254.6, 'ec2');
   ec2.setScale(0.3);
 
   // Drag hitbox
