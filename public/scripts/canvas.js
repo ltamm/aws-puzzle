@@ -34,37 +34,25 @@ function create() {
   vpc = this.add.sprite(500, 400, 'vpc');
   vpc.setInteractive({ pixelPerfect:true, draggable: true });
   vpc.setScale(.8);
-  vpc.on('drag', function (pointer, dragX, dragY) {
-    this.x = dragX;
-    this.y = dragY;
-  });
+  vpc.on('drag', on_drag);
   
   // Create public subnet object
   public_subnet = this.add.sprite(610, 325, 'pub_subnet');
   public_subnet.setInteractive({ pixelPerfect:true, draggable: true });
   public_subnet.setScale(.8);
-  public_subnet.on('drag', function (pointer, dragX, dragY) {
-    this.x = dragX;
-    this.y = dragY;
-  });
+  public_subnet.on('drag', on_drag);
 
   // Create private subnet object
   private_subnet = this.add.sprite(610, 475, 'priv_subnet');
   private_subnet.setInteractive({ pixelPerfect:true, draggable: true });
   private_subnet.setScale(.8);
-  private_subnet.on('drag', function (pointer, dragX, dragY) {
-    this.x = dragX;
-    this.y = dragY;
-  });
+  private_subnet.on('drag', on_drag);
 
   // Create ec2 object
   ec2 = this.add.sprite(700, 325, 'ec2');
   ec2.setInteractive({ pixelPerfect:true, draggable: true });
   ec2.setScale(0.3);
-  ec2.on('drag', function (pointer, dragX, dragY) {
-    this.x = dragX;
-    this.y = dragY;
-  });
+  ec2.on('drag', on_drag);
 
   // ec2 animations
   this.anims.create({
@@ -91,4 +79,9 @@ function update() {
 
 function has_connectivity() {
   return public_subnet.getBounds().contains(ec2.x, ec2.y) && vpc.getBounds().contains(public_subnet.x, public_subnet.y);
+}
+
+function on_drag(pointer, dragX, dragY) {
+  this.x = dragX;
+  this.y = dragY;
 }
