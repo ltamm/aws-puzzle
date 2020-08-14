@@ -68,9 +68,6 @@ function create() {
     frames: [ { key: 'ec2', frame: 1} ],
     frameRate: 20
   });
-
-  debugtext = this.add.text(16, 16, has_connectivity().toString(), {fontSize: '32px', fill: '#000' });
-
 }
 
 function update() {
