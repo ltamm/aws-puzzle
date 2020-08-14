@@ -23,14 +23,12 @@ function preload() {
   this.load.image('vpc', 'assets/vpc.png');
   this.load.image('pub_subnet', 'assets/pub_subnet.png');
   this.load.image('priv_subnet', 'assets/priv_subnet.png');
+  this.load.image('nat_gw', 'assets/nat.png');
 
   // Spritesheets
   this.load.spritesheet('ec2', 
     'assets/ec2.png',
     { frameWidth: 300, frameHeight: 300 });
-  this.load.spritesheet('nat_gw', 
-  'assets/nat.png',
-  { frameWidth: 200, frameHeight: 200 });
 }
 
 function create() {
@@ -88,10 +86,14 @@ function on_drag(pointer, dragX, dragY) {
 }
 
 function create_public_subnet(scene) {
-  bg = scene.add.image(0,0, 'pub_subnet').setScale(0.8);
-  gw_toggle = scene.add.image(200, 0, 'nat_gw').setScale(0.4); // hardcoded, need better way of dealing with scale
-  public_subnet = scene.add.container(610, 325, [bg, gw_toggle])
-  public_subnet.setSize((bg.width)*0.8, bg.height*0.8);
+  bg = scene.add.image(0,0, 'pub_subnet');
+  toggle = scene.add.image(275, 0, 'nat_gw'); 
+
+  public_subnet = scene.add.container(610, 325, [bg, toggle])
+  public_subnet.setSize(bg.width, bg.height);
+  public_subnet.setScale(0.8)
   public_subnet.setInteractive({draggable: true});
   public_subnet.on('drag', on_drag);
+
+  console.log(public_subnet.getBounds())
 }
