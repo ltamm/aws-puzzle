@@ -91,7 +91,10 @@ function createEC2(scene) {
     useHandCursor:   true,
     draggable:       true
   });
-  ec2.on('drag', on_drag);
+  ec2.on('drag', function(pointer, dragX, dragY) {
+    this.x = dragX;
+    this.y = dragY;
+  });
 
   // ec2 animations
   scene.anims.create({
@@ -137,11 +140,6 @@ function has_connectivity() {
 /*
  *  Helpers
  */
-
-function on_drag(pointer, dragX, dragY) {
-  this.x = dragX;
-  this.y = dragY;
-}
 
 function toggleNatGateway() {
   nat_gateway_enabled = !nat_gateway_enabled
