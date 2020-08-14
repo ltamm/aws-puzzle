@@ -47,24 +47,7 @@ function create() {
   private_subnet.setScale(.8);
   private_subnet.on('drag', on_drag);
 
-  // Create ec2 object
-  ec2 = this.add.sprite(500, 325, 'ec2');
-  ec2.setInteractive({ pixelPerfect:true, draggable: true });
-  ec2.setScale(0.3);
-  ec2.on('drag', on_drag);
-
-  // ec2 animations
-  this.anims.create({
-    key: 'happy',
-    frames: [ { key: 'ec2', frame: 0} ],
-    frameRate: 20
-  });
-
-  this.anims.create({
-    key: 'sad',
-    frames: [ { key: 'ec2', frame: 1} ],
-    frameRate: 20
-  });
+  create_ec2(this);
 }
 
 function update() {
@@ -85,6 +68,32 @@ function on_drag(pointer, dragX, dragY) {
   this.y = dragY;
 }
 
+function create_ec2(scene) {
+  ec2 = scene.add.sprite(500, 325, 'ec2');
+  ec2.setScale(0.3);
+
+  // Drag hitbox
+  ec2.setInteractive({
+    hitArea: new Phaser.Geom.Rectangle(0, 0, 300, 300),
+    hitAreaCallback: Phaser.Geom.Rectangle.Contains,
+    useHandCursor: true,
+    draggable: true });
+  ec2.on('drag', on_drag);
+
+  // ec2 animations
+  scene.anims.create({
+    key: 'happy',
+    frames: [ { key: 'ec2', frame: 0} ],
+    frameRate: 20
+  });
+
+  scene.anims.create({
+    key: 'sad',
+    frames: [ { key: 'ec2', frame: 1} ],
+    frameRate: 20
+  });
+}
+
 function create_public_subnet(scene) {
   bg = scene.add.image(0,0, 'pub_subnet');
   toggle = scene.add.image(275, 0, 'nat_gw'); 
@@ -92,7 +101,10 @@ function create_public_subnet(scene) {
   // make toggle interactive
   // where did 40 come from? Good question! I think it's the height/width of
   // the toggle image?
-  toggle.setInteractive(new Phaser.Geom.Circle(40, 40, 40), Phaser.Geom.Circle.Contains);
+  toggle.setInteractive({
+    hitArea: new Phaser.Geom.Circle(40, 40, 40),
+    hitAreaCallback: Phaser.Geom.Circle.Contains,
+    useHandCursor: true });
   toggle.on('pointerover', function() {
     this.setTint(0xff44ff);
   });
