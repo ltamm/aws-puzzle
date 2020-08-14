@@ -89,9 +89,21 @@ function create_public_subnet(scene) {
   bg = scene.add.image(0,0, 'pub_subnet');
   toggle = scene.add.image(275, 0, 'nat_gw'); 
 
+  // make toggle interactive
+  // where did 40 come from? Good question! I think it's the height/width of
+  // the toggle image?
+  toggle.setInteractive(new Phaser.Geom.Circle(40, 40, 40), Phaser.Geom.Circle.Contains);
+  toggle.on('pointerover', function() {
+    this.setTint(0xff44ff);
+  });
+  toggle.on('pointerout', function() {
+    this.clearTint();
+  });
+
   public_subnet = scene.add.container(610, 325, [bg, toggle])
   public_subnet.setSize(bg.width, bg.height);
   public_subnet.setScale(0.8)
   public_subnet.setInteractive({draggable: true});
   public_subnet.on('drag', on_drag);
+
 }
