@@ -43,7 +43,7 @@ function create() {
   createVPC(this);
   createEC2(this);
 
-  flavourText = this.add.text(20, 350, "placeholder", { fontSize: '32px', fill: '#232f3e' });
+  flavourText = this.add.text(20, 350, "", { fontSize: '32px', fill: '#232f3e' });
   solutionText = this.add.text(20, 400, "", { fontSize: '16px', fill: '#232f3e' });
 }
 
