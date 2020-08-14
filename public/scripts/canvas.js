@@ -81,7 +81,7 @@ function createNATGatewayToggle(scene) {
 }
 
 function createEC2(scene) {
-  ec2 = scene.add.sprite(500, 325, 'ec2');
+  ec2 = scene.add.sprite(500, 475, 'ec2');
   ec2.setScale(0.3);
 
   // Drag hitbox
