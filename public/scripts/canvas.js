@@ -158,7 +158,8 @@ function has_connectivity() {
     solution = "Hooray 🎉 Instances in public subnets can send traffic to the internet"
   }
   else if (private_subnet_with_gateway) {
-    solution = "Hooray 🎉 Instances in private subnets can send traffic to the interent using a\nNetwork Address Translation (NAT) Gateway that resides in the public subnet"
+    solution = "Hooray 🎉 Instances in private subnets can send traffic to the internet using a\n" +
+     "Network Address Translation (NAT) Gateway that resides in the public subnet"
   }
 
   return solution
