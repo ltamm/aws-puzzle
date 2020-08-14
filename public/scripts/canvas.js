@@ -94,6 +94,4 @@ function create_public_subnet(scene) {
   public_subnet.setScale(0.8)
   public_subnet.setInteractive({draggable: true});
   public_subnet.on('drag', on_drag);
-
-  console.log(public_subnet.getBounds())
 }
